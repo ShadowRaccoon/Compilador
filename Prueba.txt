@@ -1,0 +1,20 @@
+DIM <contador,promedio,actual,suma> AS <Integer,Float,Float,Float >
+DISPLAY "Prueba.txt LyC Tema 1!";
+DISPLAY "Ingrese un valor entero para actual: ";
+GET actual;
+contador: 0;
+suma: 0;
+while (contador <= 92) {
+  contador: contador + 1;
+  actual: (contador/0.342) + (contador* contar (actual*contador ; [2,2,2,4]));
+  suma: suma + actual;
+}
+DISPLAY "La suma es: ";
+DISPLAY suma;
+if (actual > 2 and actual NOT 0){
+  DISPLAY "actual es mayor que 2 y distinto de cero";
+}
+Else{
+  if (actual < 2)
+    DISPLAY "no es mayor que 2"
+}
