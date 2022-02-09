@@ -17,13 +17,12 @@ int yyerror(void);
 /* SECCION DE TOKENS */
 DIGITO          [0-9]
 LETRA           [a-zA-Z]
-ESPACIO         [" "]
-INI_COMENTARIO  ["*/"]
-FIN_COMENTARIO  ["/*"]
-CHAR_COMA       [","]
-CHAR_PUNTO      ["."]
-CHAR_PUNTOYCOMA [";"]
-CHAR_DOSPUNTOS  [":"]
+ESPACIO         " "
+INI_COMENTARIO  "*/"
+FIN_COMENTARIO  "/*"
+CHAR_COMA       ","
+CHAR_PUNTO      "."
+CHAR_DOSPUNTOS  ":"
 
 IDENTIFICADOR     {LETRA}({LETRA}|{DIGITO}|"_")*
 CONST_INTEGER     (-?[1-9].(DIGITO)*)|0
@@ -32,13 +31,13 @@ CONST_FLOAT       {DIGITO}{0,8}{CHAR_PUNTO}{DIGITO}{1,8}
 CONST_CADENA      \"[^\n"]*\"
 
 /* OPERADORES LOGICOS Y OPERADORES ARITMETICOS BASICOS */
-OP_SUMA         ["+"]
-OP_RESTA        ["-"]
-OP_MULT         ["*"]
-OP_DIV          ["/"]
-OP_IGUAL        ["="]
-OP_MAYOR        [">"]
-OP_MENOR        ["<"]
+OP_SUMA         "+"
+OP_RESTA        "-"
+OP_MULT         "*"
+OP_DIV          "/"
+OP_IGUAL        "="
+OP_MAYOR        ">"
+OP_MENOR        "<"
 OP_MAYORIGUAL   ">="
 OP_MENORIGUAL   "<="
 OP_COMP_IGUAL   "=="
@@ -46,7 +45,7 @@ OP_NEGACION     "!"
 OP_DISTINTO     "!="
 OP_ASIGNACION   ":="
 /* Tiene doble funcionalidad, definir un tipo de datos o asignar valor*/
-OP_DOSPUNTOS    [":"]
+OP_DOSPUNTOS    ":"
 
 /* Caracteres de apertura, cierre y fin de sentencia */
 LLAVE_A         ["{"]
@@ -55,8 +54,6 @@ PARENTESIS_A    ["("]
 PARENTESIS_C    [")"]
 CORCHETE_A      ["\["]
 CORCHETE_C      ["\]"]
-PICO_A          ["<"]
-PICO_C          [">"]
 FIN_SENTENCIA   [";"]
 
 
@@ -79,15 +76,14 @@ DIM       "DIM"
 AS        "AS"
 
 /* SECCION REGLAS: (Patron y accion semantica (Bloque de codigo que se ejecuta al detectar un patron) ) */
-/* Aca es importante el orden, donde se va a ir buscando el patron y ejecutando la accion en orden secuencial,
-   si una regla hace match pasa al siguiente token y puede que la regla siguiente era lo que yo queria matchear
-   Ej: Si pongo la regla del IDENTIFICADOR primero no va llegar a las reglas de las palabras reservadas */
+/* Aca es importante el orden, donde se va a ir buscando el patron y ejecutando la accion en orden secuencial,*/
+/*   si una regla hace match pasa al siguiente token y puede que la regla siguiente era lo que yo queria matchear*/
+/*   Ej: Si pongo la regla del IDENTIFICADOR primero no va llegar a las reglas de las palabras reservadas */
 
 %%
 
 {FIN_SENTENCIA}   {printf("\nFIN_SENTENCIA (%s)",yytext);}
 {CHAR_COMA}       {printf("\nCHAR_COMA (%s)",yytext);}
-{CHAR_PUNTOYCOMA} {printf("\nCHAR_PUNTOYCOMA (%s)",yytext);}
 {CONST_INTEGER}   {printf("\ncONST_INTEGER (%s)",yytext);}
 {CONST_FLOAT}     {printf("\nCONST_FLOAT (%s)",yytext);}
 {CONST_CADENA}    {printf("\nCONST_CADENA (%s)",yytext);}
@@ -113,8 +109,6 @@ AS        "AS"
 {PARENTESIS_C}    {printf("\nPARENTESIS_C (%s)",yytext);}
 {CORCHETE_A}      {printf("\nCORCHETE_A (%s)",yytext);}
 {CORCHETE_C}      {printf("\nCORCHETE_C (%s)",yytext);}
-{PICO_A}          {printf("\nPICO_A (%s)",yytext);}
-{PICO_C}          {printf("\nPICO_C (%s)",yytext);}
 
 {IF}              {printf("\nIF (%s)",yytext);}
 {ELSE}            {printf("\nELSE (%s)",yytext);}
