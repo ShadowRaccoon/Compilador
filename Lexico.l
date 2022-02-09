@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "y.tab.h"
 FILE *yyin;
 
 int yyerror(void);
@@ -84,7 +85,6 @@ AS        "AS"
 
 %%
 
-{OP_DOSPUNTOS}    {printf("\nDOS_PUNTOS (%s)",yytext);}
 {FIN_SENTENCIA}   {printf("\nFIN_SENTENCIA (%s)",yytext);}
 {CHAR_COMA}       {printf("\nCHAR_COMA (%s)",yytext);}
 {CHAR_PUNTOYCOMA} {printf("\nCHAR_PUNTOYCOMA (%s)",yytext);}
