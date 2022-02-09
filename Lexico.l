@@ -20,14 +20,13 @@ LETRA           [a-zA-Z]
 ESPACIO         [" "]
 INI_COMENTARIO  ["*/"]
 FIN_COMENTARIO  ["/*"]
-GUIONES         [-_]
 CHAR_COMA       [","]
 CHAR_PUNTO      ["."]
 CHAR_PUNTOYCOMA [";"]
 CHAR_DOSPUNTOS  [":"]
 
-IDENTIFICADOR     {LETRA}({LETRA}|{DIGITO}|{GUIONES})*
-CONST_INTEGER     (-?[1-9]{0,4})|0
+IDENTIFICADOR     {LETRA}({LETRA}|{DIGITO}|"_")*
+CONST_INTEGER     (-?[1-9].(DIGITO)*)|0
 CONST_FLOAT       {DIGITO}{0,8}{CHAR_PUNTO}{DIGITO}{1,8}
 /* La regla de abajo considera string  a todo lo que este dentro de comillas doble excepto el caracter de fin de linea y la propia comilla doble */
 CONST_CADENA      \"[^\n"]*\"
@@ -45,6 +44,7 @@ OP_MENORIGUAL   "<="
 OP_COMP_IGUAL   "=="
 OP_NEGACION     "!"
 OP_DISTINTO     "!="
+OP_ASIGNACION   ":="
 /* Tiene doble funcionalidad, definir un tipo de datos o asignar valor*/
 OP_DOSPUNTOS    [":"]
 
@@ -104,6 +104,7 @@ AS        "AS"
 {OP_COMP_IGUAL}   {printf("\nOP_COMP_IGUAL (%s)",yytext);}
 {OP_NEGACION}     {printf("\nOP_NEGACION (%s)",yytext);}
 {OP_DISTINTO}     {printf("\nOP_DISTINTO (%s)",yytext);}
+{OP_ASIGNACION}    {printf("\nOP_ASIGNACION (%s)",yytext);}
 {OP_DOSPUNTOS}    {printf("\nOP_DOSPUNTOS (%s)",yytext);}
 
 {LLAVE_A}         {printf("\nLLAVE_A (%s)",yytext);}
