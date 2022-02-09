@@ -10,4 +10,4 @@ gcc lex.yy.c  y.tab.c -o comp1
 
 rm lex.yy.c
 rm y.tab.c
-
+rm y.tab.h
