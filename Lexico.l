@@ -4,6 +4,11 @@
 #include <string.h>
 #include "y.tab.h"
 
+#define MAX_CONST_CADENA_LENGTH 30
+#define MAX_ID_LENGTH 100
+#define MAX_CONST_INT 30
+#define MAX_CONST_FLOAT 30
+
 FILE *yyin;
 
 int yyerror(void);
@@ -24,6 +29,8 @@ FIN_COMENTARIO  "/*"
 CHAR_COMA       ","
 CHAR_PUNTO      "."
 CHAR_DOSPUNTOS  ":"
+CARACTERES      ({LETRA}|\$|\%|\&|\/|\(|\)|\=|\\|\?)
+COMENTARIOS		  {INI_COMENTARIO}({CARACTERES}|{DIGITO}|{ESPACIO})*{FIN_COMENTARIO}
 
 IDENTIFICADOR     {LETRA}({LETRA}|{DIGITO}|"_")*
 CONST_INTEGER     (-?[1-9].(DIGITO)*)|0
@@ -69,6 +76,7 @@ INTEGER   "INGETER"|"Integer"
 FLOAT     "FLOAT"|"Float"
 WRITE     "WRITE"|"write"
 DISPLAY   "DISPLAY"
+PUT       "PUT"
 GET       "GET"
 NOT       "NOT"|"not"|"Not"
 AND       "AND"|"and"|"And"
@@ -120,6 +128,7 @@ CONTAR        "CONTAR"
 {FLOAT}           {printf("\nFLOAT (%s)",yytext); return FLOAT;}
 {WRITE}           {printf("\nWRITE (%s)",yytext); return WRITE;}
 {DISPLAY}         {printf("\nDISPLAY (%s)",yytext); return DISPLAY;}
+{PUT}         {printf("\nPUT (%s)",yytext); return PUT;}
 {GET}             {printf("\nGET (%s)",yytext); return GET;}
 {AND}             {printf("\nAND (%s)",yytext); return AND;}
 {OR}              {printf("\nOR (%s)",yytext); return OR;}

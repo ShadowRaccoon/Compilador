@@ -43,6 +43,7 @@ int yyerror();
 %token FLOAT
 %token WRITE
 %token DISPLAY
+%token PUT
 %token GET
 %token AND
 %token OR
@@ -58,9 +59,12 @@ int yyerror();
 
 %%
 s: programa;
-programa: DIM OP_MENOR l_asig OP_MAYOR bloque;
-l_asig: OP_MAYOR AS OP_MENOR;
-l_asig: IDENTIFICADOR l_asig INTEGER|FLOAT;
+programa: bloque_dec bloque;
+bloque_dec: dec;
+bloque_dec: bloque_dec dec;
+dec: DIM OP_MENOR l_dec OP_MAYOR;
+l_dec: OP_MAYOR AS OP_MENOR;
+l_dec: IDENTIFICADOR l_dec INTEGER|FLOAT;
 bloque: operacion FIN_SENTENCIA;
 bloque: bloque operacion FIN_SENTENCIA;
 operacion: asig | if | while | get | display | contar;
@@ -82,9 +86,12 @@ factor: PARENTESIS_A expresion PARENTESIS_C
       | CONST_FLOAT
       | CONST_INTEGER
       | IDENTIFICADOR;
-get: GET;
-display: DISPLAY;
-contar: CONTAR;  
+get: GET IDENTIFICADOR;
+display: DISPLAY IDENTIFICADOR
+        | DISPLAY CONST_CADENA
+        | PUT IDENTIFICADOR
+        | PUT CONST_CADENA;
+contar: CONTAR ;
 
 %%
 
