@@ -3,3 +3,5 @@ y.tab.h
 y.tab.c
 lex.yy.c
 Sintactico.tab.c
+Sintactico.tab.h
+Sintactico.output
