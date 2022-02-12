@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-FILE *yyin;
+//FILE *yyin;
 
 int yylex();
 int yyerror();
@@ -13,7 +13,7 @@ int yyerror();
 %token CONST_INTEGER
 %token CONST_FLOAT
 %token CONST_CADENA
-
+//operaciones
 %token OP_SUMA
 %token OP_RESTA
 %token OP_DIV
@@ -49,27 +49,57 @@ int yyerror();
 %token NOT
 %token DIM
 %token AS
-%token IDENTIFICADOR
+%token CONTAR
+%token <strVal>IDENTIFICADOR
+
+%union{
+    char* strVal;
+}
 
 %%
-s: programa FIN_SENTENCIA;
-programa: DIM OP_MENOR l_asig OP_MAYOR;
+s: programa;
+programa: DIM OP_MENOR l_asig OP_MAYOR bloque;
 l_asig: OP_MAYOR AS OP_MENOR;
 l_asig: IDENTIFICADOR l_asig INTEGER|FLOAT;
+bloque: operacion FIN_SENTENCIA;
+bloque: bloque operacion FIN_SENTENCIA;
+operacion: asig | if | while | get | display | contar;
+asig: IDENTIFICADOR OP_DOSPUNTOS expresion 
+    | IDENTIFICADOR OP_DOSPUNTOS CONST_CADENA;
+if: IF PARENTESIS_A condicion PARENTESIS_C operacion
+    | IF PARENTESIS_A condicion PARENTESIS_C LLAVE_A bloque LLAVE_C;
+while: WHILE PARENTESIS_A condicion PARENTESIS_C operacion
+    |  WHILE PARENTESIS_A condicion PARENTESIS_C LLAVE_A bloque LLAVE_C; 
+condicion: IDENTIFICADOR comparador factor;
+comparador: OP_MAYOR | OP_MENOR | OP_MAYORIGUAL | OP_MENORIGUAL | OP_IGUAL | OP_DISTINTO;
+expresion: expresion OP_SUMA termino 
+        | expresion OP_RESTA termino
+        | termino;
+termino: termino OP_MULT factor
+        | termino OP_DIV factor
+        | factor;
+factor: PARENTESIS_A expresion PARENTESIS_C 
+      | CONST_FLOAT
+      | CONST_INTEGER
+      | IDENTIFICADOR;
+get: GET;
+display: DISPLAY;
+contar: CONTAR;  
+
 %%
 
  
-int main(int argc,char *argv[])
-{
-  if ((yyin = fopen(argv[1], "rt")) == NULL)
-  {
-	printf("\nNo se puede abrir el archivo: %s\n", argv[1]);
-  }
-  else
-  {
-	yyparse();
-  }
-  fclose(yyin);
-  getchar();
-  return 0;
-}
+// int main(int argc,char *argv[])
+// {
+//   if ((yyin = fopen(argv[1], "rt")) == NULL)
+//   {
+// 	printf("\nNo se puede abrir el archivo: %s\n", argv[1]);
+//   }
+//   else
+//   {
+// 	yyparse();
+//   }
+//   fclose(yyin);
+//   getchar();
+//   return 0;
+// }
